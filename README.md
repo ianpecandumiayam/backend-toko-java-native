@@ -1,8 +1,8 @@
-# 📦 Aplikasi Manajemen Stok Barang (Toko Septian)
+#  Aplikasi Manajemen Stok Barang 
 
 Aplikasi desktop sederhana berbasis **Java Swing** dan **SQLite** untuk mengelola stok barang di toko. Proyek ini dibuat untuk belajar konsep **CRUD** (Create, Read, Update, Delete) dan database.
 
-## 📸 Screenshots
+## Screenshots
 --
 
 ##  Fitur Utama

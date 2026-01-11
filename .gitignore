@@ -1,0 +1,9 @@
+# Abaikan file hasil compile Java
+*.class
+
+# Abaikan file log
+*.log
+nohup.out
+
+# Abaikan file sistem sampah
+.DS_Store

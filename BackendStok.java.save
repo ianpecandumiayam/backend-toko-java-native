@@ -1,0 +1,5 @@
+import java.sql.*;
+public class BackendStok{
+public static void main(String[] args){
+String url = "jdbc:sqlite:barang_septian.db";
+String query = "select barang.kode, barang.namabar, barang.harga, kategori.nama_kategori " + "from barang " + "inner join kategori on barang.id_kategori

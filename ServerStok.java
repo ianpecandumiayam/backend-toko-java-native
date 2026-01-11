@@ -1,7 +1,6 @@
 import com.sun.net.httpserver.HttpServer;
 import com.sun.net.httpserver.HttpHandler;
 import com.sun.net.httpserver.HttpExchange;
-
 import java.io.IOException;
 import java.io.OutputStream;
 import java.net.InetSocketAddress;
@@ -11,10 +10,7 @@ public class ServerStok {
     public static void main(String[] args) throws IOException {
         int port = 8000;
         HttpServer server = HttpServer.create(new InetSocketAddress(port), 0);
-        
-        // Endpoint baru: /api/stok
         server.createContext("/api/stok", new StokHandler());
-        
         server.setExecutor(null);
         server.start();
         System.out.println("🚀 SERVER DATABASE NYALA! Cek: http://localhost:" + port + "/api/stok");
@@ -25,7 +21,7 @@ public class ServerStok {
         public void handle(HttpExchange exchange) throws IOException {
             // 1. SIAPIN WADAH JSON
             StringBuilder jsonResult = new StringBuilder();
-            jsonResult.append("["); // Buka Kurung Siku (Array JSON)
+            jsonResult.append("["); 
 
             // 2. KONEK KE DB & AMBIL DATA (Logika Step 2)
             String url = "jdbc:sqlite:barang_septian.db";
@@ -38,7 +34,7 @@ public class ServerStok {
 
                 boolean first = true;
                 while (rs.next()) {
-                    // Kalau bukan data pertama, kasih koma pemisah
+                    
                     if (!first) jsonResult.append(",");
                     first = false;
 
@@ -46,26 +42,25 @@ public class ServerStok {
                     int harga = rs.getInt("harga");
                     String kat = rs.getString("nama_kategori");
 
-                    // RAKIT JSON MANUAL (Hati-hati tanda petik!)
-                    // Hasilnya jadi: {"nama": "Mouse", "harga": 50000, "kategori": "Elektronik"}
+                    
                     jsonResult.append(String.format("{\"nama\": \"%s\", \"harga\": %d, \"kategori\": \"%s\"}", 
                                       nama, harga, kat != null ? kat : "Tanpa Kategori"));
                 }
 
             } catch (SQLException e) {
-                e.printStackTrace(); // Kalo error print di terminal server
+                e.printStackTrace(); 
                 String errorJson = "{\"status\": \"error\", \"pesan\": \"Database Meledak!\"}";
                 kirimRespon(exchange, 500, errorJson);
                 return;
             }
 
-            jsonResult.append("]"); // Tutup Kurung Siku
+            jsonResult.append("]"); 
             
             // 3. KIRIM HASILNYA
             kirimRespon(exchange, 200, jsonResult.toString());
         }
 
-        // Fungsi pembantu biar gak capek ngetik ulang
+        
         private void kirimRespon(HttpExchange exchange, int kode, String isi) throws IOException {
             exchange.getResponseHeaders().set("Content-Type", "application/json");
             exchange.sendResponseHeaders(kode, isi.length());
